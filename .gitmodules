@@ -1,0 +1,3 @@
+[submodule "EvoController"]
+	path = EvoController
+	url = https://github.com/fcjr/EvoController.git
