@@ -1,5 +1,3 @@
-import sys
-sys.path.append("..")
 from EvoController.evoPyLib.evoPyLib import *
 import datetime
 import csv
@@ -7,20 +5,19 @@ import sys,os,errno,getopt
 import numpy as np
 
 
-helptext = 'genNoiseDisparity.py -v -a -p serial_port -r raw_output_file -o output_file'
+helptext = 'genNoiseDisparity.py -v -p serial_port -r raw_output_file -o output_file'
 
 def main():
     #get arguments
     try:
-        opts, args = getopt.getopt(sys.argv[1:], "va:p:r:o:", ['verbose','arrayport=','printerport=','rawoutfile=','outputfile='])
+        opts, args = getopt.getopt(sys.argv[1:], "vp:r:o:", ['verbose','port=','rawoutfile=','outputfile='])
     except getopt.GetoptError:
         print("Useage:")
         print helptext
         sys.exit()
 
     verbose = False
-    arrayport = ''
-    printerport = ''
+    port = ''
     rawoutfile = ''
     outputfile = ''
 
@@ -28,10 +25,8 @@ def main():
     for opt,arg in opts:
         if opt in ('-v','verbose'):
             verbose = True
-        elif opt in ('-a','--arrayport'):
-            arrayport = arg.strip()
-        elif opt in ('-p','--printerport'):
-            printerport = arg.strip()
+        elif opt in ('-p','--port'):
+            port = arg.strip()
         elif opt in ('-r', '--rawoutfile'):
             rawoutfile = arg.strip()
         elif opt in ('-o','--outputfile'):
@@ -39,7 +34,7 @@ def main():
 
 
     #create the evoArray
-    array = EvoArray(arrayport)
+    array = EvoArray(port)
     try: #EvoArrays need to be safely closed, this ensures that.
 
             #get 5 min of raw data and store it in rawData
